@@ -1,16 +1,16 @@
-name: Notify Teams on PR
+name: Notify Teams on PR Creation
 
 on:
   pull_request:
-    types: [opened]
+    types: [opened, reopened]
 
 jobs:
   notify:
     runs-on: ubuntu-latest
     steps:
-      - name: Send message to Teams
-        uses: teamsnotify/teamsnotify@v1
-        env:
-          DISCORD_WEBHOOK: ${{ secrets.TEAMS_WEBHOOK_URL }}
+      - name: Send PR Notification to Teams
+        uses: rlespinasse/github-action-teams-notification@v1
         with:
-          args: "📣 New PR created: ${{ github.event.pull_request.title }} by ${{ github.actor }}"
+          webhook_url: ${{ secrets.TEAMS_WEBHOOK_URL }}
+          pr_title: ${{ github.event.pull_request.title }}
+          pr_url: ${{ github.event.pull_request.html_url }}
