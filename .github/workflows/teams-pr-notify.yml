@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Send message to Teams
-        uses: Ilshidur/action-discord-webhook@master
+        uses: teamsnotify/teamsnotify@v1
         env:
           DISCORD_WEBHOOK: ${{ secrets.TEAMS_WEBHOOK_URL }}
         with:
