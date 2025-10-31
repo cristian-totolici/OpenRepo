@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Send PR Notification to Teams
-        uses: rlespinasse/github-action-teams-notification@v1
+        uses: teamsnotify/teamsnotify@v1
         with:
           webhook_url: ${{ secrets.TEAMS_WEBHOOK_URL }}
           pr_title: ${{ github.event.pull_request.title }}
