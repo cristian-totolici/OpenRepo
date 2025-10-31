@@ -12,7 +12,7 @@ jobs:
         uses: jdcargile/ms-teams-notification@v1.4
         with:
           github-token: ${{ github.token }}
-          ms-teams-webhook-uri: ${{ secrets.MS_TEAMS_WEBHOOK_URI }}
+          ms-teams-webhook-uri: ${{ secrets.MSTEAMS_WEBHOOK }}
           notification-summary: 'Pull Request Update'
           notification-color: '17a2b8'
           timezone: 'America/Denver'
