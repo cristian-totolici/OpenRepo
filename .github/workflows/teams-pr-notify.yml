@@ -1,16 +1,31 @@
-name: Notify Teams on PR
+name: Notify Teams on PR Creation
 
 on:
   pull_request:
     types: [opened]
 
 jobs:
-  notify:
+  notify-teams:
     runs-on: ubuntu-latest
     steps:
-      - name: Send message to Teams
-        uses: Ilshidur/action-discord-webhook@master
-        env:
-          DISCORD_WEBHOOK: ${{ secrets.TEAMS_WEBHOOK_URL }}
-        with:
-          args: "📣 New PR created: ${{ github.event.pull_request.title }} by ${{ github.actor }}"
+      - name: Send PR Notification to Teams
+        run: |
+          curl -H "Content-Type: application/json" \
+            -d '{
+              "@type": "MessageCard",
+              "@context": "http://schema.org/extensions",
+              "summary": "New Pull Request",
+              "themeColor": "0076D7",
+              "title": "New PR: ${{ github.event.pull_request.title }}",
+              "text": "A new pull request has been opened by ${{ github.event.pull_request.user.login }} in [${{ github.repository }}](${{ github.event.pull_request.html_url }}).",
+              "potentialAction": [
+                {
+                  "@type": "OpenUri",
+                  "name": "View Pull Request",
+                  "targets": [
+                    { "os": "default", "uri": "${{ github.event.pull_request.html_url }}" }
+                  ]
+                }
+              ]
+            }' \
+            ${{ secrets.TEAMS_WEBHOOK_URL }}
